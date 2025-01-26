@@ -26,7 +26,7 @@ public class MemberController {
     }
 
     @GetMapping("/{id}")
-    public Member getMemberById(@PathVariable Long id) {
+    public Member getMemberById(@PathVariable String id) {
         return repository.findById(id).orElseThrow(() -> new RuntimeException("Member not found"));
     }
 }
