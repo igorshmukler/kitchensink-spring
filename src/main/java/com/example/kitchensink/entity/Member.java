@@ -25,7 +25,6 @@ public class Member {
     private String email;
 
     // Getter and Setter methods
-
     public String getId() {
         return id;
     }
