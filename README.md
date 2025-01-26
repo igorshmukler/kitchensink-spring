@@ -1,9 +1,3 @@
-To create a new README for the converted **Spring Boot** version of the JBoss EAP Kitchensink project, you'll need to include an overview of the changes and highlight the Spring Boot features. Additionally, include instructions for how the project was converted from the original JBoss EAP version to Spring Boot. 
-
-Here’s an updated version of the README:
-
----
-
 # Kitchensink Spring Boot
 
 This project is a basic example of a CRUD (Create, Read, Update, Delete) application developed with Spring Boot. It demonstrates how to use a combination of Spring Boot features, including Spring Data JPA, Hibernate, and validation, to build a simple web application that interacts with a database.
