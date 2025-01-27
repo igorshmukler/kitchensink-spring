@@ -15,6 +15,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
+import java.util.Optional;
 
 @WebMvcTest(MemberController.class)
 public class MemberControllerTest {
@@ -41,7 +42,8 @@ public class MemberControllerTest {
 
     @Test
     public void testGetMemberById() throws Exception {
-        when(memberService.findMemberById("1")).thenReturn(member);
+         Optional<Member> foundMember = Optional.of(member);
+        when(memberRepository.findById("1")).thenReturn(foundMember);
 
         mockMvc.perform(get("/members/1"))
                 .andExpect(status().isOk())
@@ -62,11 +64,14 @@ public class MemberControllerTest {
 
     @Test
     public void testDeleteMember() throws Exception {
-        doNothing().when(memberService).deleteMember("1");
+        Optional<Member> foundMember = Optional.of(member);
+        when(memberRepository.findById("1")).thenReturn(foundMember);
+
+        doNothing().when(memberRepository).deleteById("1");
 
         mockMvc.perform(delete("/members/1"))
                 .andExpect(status().isOk());
 
-        verify(memberService, times(1)).deleteMember("1");
+        verify(memberRepository, times(1)).deleteById("1");
     }
 }
