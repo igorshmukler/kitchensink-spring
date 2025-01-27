@@ -11,7 +11,7 @@ This project is a **Spring Boot** adaptation of the original **JBoss EAP Kitchen
 - **Spring MVC** for RESTful web services and form-based UI
 - **Thymeleaf** for rendering web views
 - **Validation** with **Jakarta Validation API**
-- **H2** (in-memory database) for development and testing purposes
+- **MongoDB** for data persistance
 - **Maven** for dependency management and build automation
 
 ---
@@ -22,6 +22,7 @@ This project is a **Spring Boot** adaptation of the original **JBoss EAP Kitchen
 
 - **Java 17** or higher
 - **Maven 3.6+**
+- **MongoDB**
 
 ### Running the Application
 
@@ -93,10 +94,9 @@ This section describes the steps followed to convert the original **JBoss EAP Ki
 - Replaced the JAX-RS (RESTEasy) setup with **Spring MVC** for RESTful API endpoints.
 - Created Spring controllers to handle web requests and defined methods for CRUD operations using Spring Data JPA.
 
-### Step 5: Frontend (UI) Migration
+### Step 5: Datastore H2 to MongoDB migration
 
-- The original JSF-based frontend was replaced by **Thymeleaf** templates, which integrate seamlessly with Spring Boot.
-- Created Thymeleaf templates for listing members, adding new members, and updating existing members.
+- The original H2 database support was replaced with MongoDB support.
 
 ### Step 6: Testing
 
@@ -126,22 +126,44 @@ This section describes the steps followed to convert the original **JBoss EAP Ki
 
 ---
 
-## H2 Console
+## MongoDB Configuration
 
-Spring Boot uses the H2 database for development by default. You can access the H2 console at:
+To run this application with MongoDB, ensure that MongoDB is installed and running locally or on a remote server.
 
-- URL: `http://localhost:8080/h2-console`
-- JDBC URL: `jdbc:h2:mem:testdb`
-- Username: `sa`
-- Password: (leave blank)
+### Prerequisites
 
+MongoDB - You need MongoDB installed and running. You can download it from the official MongoDB website or use Docker:
+
+```bash
+docker run -d -p 27017:27017 --name mongodb mongo:latest
+```
+
+### Spring Boot MongoDB Dependencies: The following dependencies are used for MongoDB integration:
+
+```xml
+<dependency>
+    <groupId>org.springframework.boot</groupId>
+    <artifactId>spring-boot-starter-data-mongodb</artifactId>
+</dependency>
+```
+
+### MongoDB Properties
+
+Update the application.properties file with MongoDB-specific configuration:
+
+```properties
+# MongoDB configuration
+spring.data.mongodb.host=localhost
+spring.data.mongodb.port=27017
+spring.data.mongodb.database=kitchensink
+```
 ---
 
 ## Further Reading
 
 - [Spring Boot Documentation](https://docs.spring.io/spring-boot/docs/current/reference/htmlsingle/)
 - [Spring Data JPA Documentation](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/)
-- [Thymeleaf Documentation](https://www.thymeleaf.org/documentation.html)
+- [MongoDB Documentation](https://www.mongodb.com/docs/)
 
 ---
 
