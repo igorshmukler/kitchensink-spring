@@ -4,15 +4,20 @@ import com.example.kitchensink.entity.Member;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.boot.test.autoconfigure.data.mongo.DataMongoTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import com.example.kitchensink.service.MemberService;
 
 @DataMongoTest
 public class MemberRepositoryTest {
 
     @Autowired
     private MemberRepository memberRepository;
+
+    @MockBean
+    private MemberService memberService;
 
     private Member member;
 

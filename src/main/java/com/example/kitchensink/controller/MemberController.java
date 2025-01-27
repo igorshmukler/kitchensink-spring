@@ -28,7 +28,7 @@ public class MemberController {
     @PostMapping
     public ResponseEntity<String> registerMember(@RequestBody Member member) {
         if (validateMember(member)) {
-            repository.save(member);
+            Member savedMember = repository.save(member);
             return new ResponseEntity<>("Member added successfully", HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>("Invalid member data", HttpStatus.BAD_REQUEST);

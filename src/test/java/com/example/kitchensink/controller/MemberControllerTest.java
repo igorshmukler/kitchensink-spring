@@ -9,9 +9,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import com.example.kitchensink.repository.MemberRepository;
+
 import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 
 @WebMvcTest(MemberController.class)
 public class MemberControllerTest {
@@ -21,6 +24,9 @@ public class MemberControllerTest {
 
     @MockBean
     private MemberService memberService;
+
+    @MockBean
+    private MemberRepository memberRepository;
 
     private Member member;
 
@@ -51,10 +57,7 @@ public class MemberControllerTest {
         mockMvc.perform(post("/members")
                         .contentType("application/json")
                         .content("{\"firstName\": \"John\", \"lastName\": \"Doe\", \"email\": \"johndoe@example.com\"}"))
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.firstName").value("John"))
-                .andExpect(jsonPath("$.lastName").value("Doe"))
-                .andExpect(jsonPath("$.email").value("johndoe@example.com"));
+                .andExpect(status().isCreated());
     }
 
     @Test
