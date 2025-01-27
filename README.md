@@ -29,8 +29,8 @@ This project is a **Spring Boot** adaptation of the original **JBoss EAP Kitchen
 1. **Clone the repository:**
 
    ```bash
-   git clone https://github.com/your-repo/kitchensink-springboot.git
-   cd kitchensink-springboot
+   git clone https://github.com/igorshmukler/kitchensink-spring.git
+   cd kitchensink-spring
    ```
 
 2. **Build the project:**
