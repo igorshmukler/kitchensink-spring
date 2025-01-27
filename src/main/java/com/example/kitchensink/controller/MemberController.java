@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.example.kitchensink.repository.MemberRepository;
+import com.example.kitchensink.service.MemberService;
 import com.example.kitchensink.entity.Member;
 
 import jakarta.validation.ValidationException;
@@ -20,15 +21,18 @@ public class MemberController {
     @Autowired
     private MemberRepository repository;
 
+    @Autowired
+    private MemberService memberService;
+
     @GetMapping
     public List<Member> listAllMembers() {
-        return repository.findAll();
+        return memberService.findAllMembers();
     }
 
     @PostMapping
     public ResponseEntity<String> registerMember(@RequestBody Member member) {
         if (validateMember(member)) {
-            repository.save(member);
+            memberService.saveMember(member);
             return new ResponseEntity<>("Member added successfully", HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>("Invalid member data", HttpStatus.BAD_REQUEST);
@@ -37,16 +41,20 @@ public class MemberController {
 
     @PutMapping("/{id}")
     public Member updateMember(@PathVariable String id, @RequestBody Member member) {
-        repository.findById(id).orElseThrow(() -> new RuntimeException("Member not found"));
-        return repository.save(member);
+        Member existingMember =  memberService.findMemberById(id);
+        if (existingMember == null) {
+            throw new RuntimeException("Member not found");
+        }
+
+        return memberService.saveMember(member);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteMemberById(@PathVariable String id) {
-        Optional<Member> member = repository.findById(id);
+        Member member = memberService.findMemberById(id);
 
-        if (member.isPresent()) {
-            repository.deleteById(id);
+        if (member != null) {
+            memberService.deleteMember(id);
             return new ResponseEntity<>("Member deleted successfully", HttpStatus.OK);
         } else {
             return new ResponseEntity<>("Member not found", HttpStatus.NOT_FOUND);
@@ -55,7 +63,12 @@ public class MemberController {
 
     @GetMapping("/{id}")
     public Member getMemberById(@PathVariable String id) {
-        return repository.findById(id).orElseThrow(() -> new RuntimeException("Member not found"));
+        Member member =  memberService.findMemberById(id);
+        if (member == null) {
+            throw new RuntimeException("Member not found");
+        }
+
+        return member;
     }
 
     private boolean emailAlreadyExists(String email) {
