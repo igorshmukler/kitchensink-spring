@@ -11,6 +11,8 @@ import java.util.Optional;
 import com.example.kitchensink.repository.MemberRepository;
 import com.example.kitchensink.entity.Member;
 
+import jakarta.validation.ValidationException;
+
 @RestController
 @RequestMapping("/members")
 public class MemberController {
@@ -24,8 +26,13 @@ public class MemberController {
     }
 
     @PostMapping
-    public Member registerMember(@RequestBody Member member) {
-        return repository.save(member);
+    public ResponseEntity<String> registerMember(@RequestBody Member member) {
+        if (validateMember(member)) {
+            repository.save(member);
+            return new ResponseEntity<>("Member added successfully", HttpStatus.CREATED);
+        } else {
+            return new ResponseEntity<>("Invalid member data", HttpStatus.BAD_REQUEST);
+        }
     }
 
     @PutMapping("/{id}")
@@ -49,5 +56,19 @@ public class MemberController {
     @GetMapping("/{id}")
     public Member getMemberById(@PathVariable String id) {
         return repository.findById(id).orElseThrow(() -> new RuntimeException("Member not found"));
+    }
+
+    private boolean emailAlreadyExists(String email) {
+        Member member = repository.findByEmail(email);
+
+        return member != null;
+    }
+
+    private boolean validateMember(Member member) {
+        if (emailAlreadyExists(member.getEmail())) {
+            return false;
+        }
+
+        return true; // Valid if the checks pass
     }
 }
