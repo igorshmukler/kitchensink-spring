@@ -1,30 +1,30 @@
 package com.example.kitchensink.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-@Entity
+@Document(collection = "members")
 public class Member {
+
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private String id; // MongoDB uses String IDs (ObjectId by default)
 
     @NotNull
-    private String name;
+    @Size(min = 1, max = 100)
+    private String firstName;
 
     @NotNull
+    @Size(min = 1, max = 100)
+    private String lastName;
+
     @Email
+    @NotNull
     private String email;
 
-    @Size(max = 15)
-    private String phoneNumber;
-
-    // Getters and Setters
+    // Getter and Setter methods
     public String getId() {
         return id;
     }
