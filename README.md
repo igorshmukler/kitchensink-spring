@@ -9,7 +9,7 @@ This project is a **Spring Boot** adaptation of the original **JBoss EAP Kitchen
 - **Spring Boot 3.x**
 - **Spring Data JPA** for persistence using Hibernate
 - **Spring MVC** for RESTful web services and form-based UI
-- **Thymeleaf** for rendering web views
+- **ReactJS** for rendering web views available from https://github.com/igorshmukler/kitchensink-react
 - **Validation** with **Jakarta Validation API**
 - **MongoDB** for data persistance
 - **Maven** for dependency management and build automation
