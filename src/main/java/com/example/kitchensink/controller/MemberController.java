@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.HttpStatus;
 
 import java.util.List;
-import java.util.Optional;
 
 import com.example.kitchensink.repository.MemberRepository;
 import com.example.kitchensink.service.MemberService;
@@ -24,11 +23,13 @@ public class MemberController {
     @Autowired
     private MemberService memberService;
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping
     public List<Member> listAllMembers() {
         return memberService.findAllMembers();
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PostMapping
     public ResponseEntity<String> registerMember(@RequestBody Member member) {
         if (validateMember(member)) {
@@ -39,6 +40,7 @@ public class MemberController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @PutMapping("/{id}")
     public Member updateMember(@PathVariable String id, @RequestBody Member member) {
         Member existingMember =  memberService.findMemberById(id);
@@ -49,6 +51,7 @@ public class MemberController {
         return memberService.saveMember(member);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @DeleteMapping("/{id}")
     public ResponseEntity<String> deleteMemberById(@PathVariable String id) {
         Member member = memberService.findMemberById(id);
@@ -61,6 +64,7 @@ public class MemberController {
         }
     }
 
+    @CrossOrigin(origins = "http://localhost:3000")
     @GetMapping("/{id}")
     public Member getMemberById(@PathVariable String id) {
         Member member =  memberService.findMemberById(id);
